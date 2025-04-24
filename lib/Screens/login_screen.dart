@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'cadastro_screen.dart';
-
+import 'package:narrativia/theme/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _emailTouched = false;
   bool _passwordTouched = false;
-  bool _passwordVisible = false;  // Olinho da senha <0>
+  bool _passwordVisible = false;
 
   @override
   void initState() {
@@ -57,32 +57,30 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text;
       final password = _passwordController.text;
-      print('Email: \$email, Senha: \$password');
+      print('Email: $email, Senha: $password');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2E2E2E),
       body: Center(
         child: Container(
+          width: double.infinity,
+          height: double.infinity,
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFECC4),
-          ),
+          color: AppColors.backgroundLight,
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'NarrativAI',
                   style: GoogleFonts.medievalSharp(
-                    color: const Color(0xFF5B1E0F),
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -91,18 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextFormField(
                     controller: _emailController,
                     focusNode: _emailFocus,
-                    style: GoogleFonts.openSans(color: Colors.black87),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Email',
-                      labelStyle: GoogleFonts.openSans(color: Colors.black87),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Color(0xFFC86A24)),
-                      ),
-                      errorStyle: const TextStyle(color: Color(0xFFB00020)),
                     ),
                     validator: (value) {
                       if (!_emailTouched) return null;
@@ -114,6 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       return null;
                     },
+                    style: const TextStyle(color: AppColors.inputText),
+
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -122,23 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextFormField(
                     controller: _passwordController,
                     focusNode: _passwordFocus,
-                    obscureText: !_passwordVisible,  // Controla visibilidade
-                    style: GoogleFonts.openSans(color: Colors.black87),
+                    obscureText: !_passwordVisible,
                     decoration: InputDecoration(
                       labelText: 'Senha',
-                      labelStyle: GoogleFonts.openSans(color: Colors.black87),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Color(0xFFC86A24)),
-                      ),
-                      errorStyle: const TextStyle(color: Color(0xFFB00020)),
-                      suffixIcon: IconButton(  // Ícone do olhinho
+                      suffixIcon: IconButton(
                         icon: Icon(
                           _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         onPressed: () {
                           setState(() {
@@ -157,57 +137,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       return null;
                     },
+                    style: const TextStyle(color: AppColors.inputText),
                   ),
                 ),
                 const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Esqueceu a senha?',
-                      style: GoogleFonts.openSans(
-                        color: const Color(0xFF5B1E0F),
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Esqueceu a senha?'),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: 280,
                   child: ElevatedButton(
                     onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF5B1E0F),
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text('Entrar',
-                    style: GoogleFonts.openSans(
-                      color: Colors.white,
-                     ),
-                    ),
+                    child: const Text('Entrar'),
                   ),
                 ),
                 const SizedBox(height: 16),
-               TextButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const CadastroScreen()),
-    );
-  },
-  child: Text(
-    'Criar conta',
-    style: GoogleFonts.openSans(
-      color: const Color(0xFF5B1E0F),
-      decoration: TextDecoration.underline,
-    ),
-  ),
-),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CadastroScreen()),
+                    );
+                  },
+                  child: const Text('Criar conta'),
+                ),
                 const SizedBox(height: 16),
                 Image.asset(
                   'assets/logo.png',
